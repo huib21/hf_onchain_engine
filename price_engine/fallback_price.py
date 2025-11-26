@@ -16,7 +16,6 @@ class FallbackPrice:
             r.raise_for_status()
             data = r.json()
 
-            # Format: {"data": {"SOL": {"price": 188}}}
             return data["data"][symbol]["price"]
         except:
             return None
