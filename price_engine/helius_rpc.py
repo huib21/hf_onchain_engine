@@ -13,6 +13,6 @@ class HeliusRPC:
             "params": params,
         }
 
-        r = requests.post(self.url, json=payload, timeout=10)
+r = requests.post(self.url, json=payload, timeout=0.5)
         r.raise_for_status()
         return r.json()
