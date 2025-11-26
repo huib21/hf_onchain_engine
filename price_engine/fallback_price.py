@@ -1,4 +1,3 @@
-cat > price_engine/fallback_price.py << 'EOF'
 import requests
 
 class FallbackPrice:
@@ -9,7 +8,7 @@ class FallbackPrice:
         if symbol in ["USDC", "USDT"]:
             return 1.00
 
-        # Global Jupiter price feed
+        # Jupiter price feed
         try:
             url = f"https://api.jup.ag/price/v2?ids={symbol}"
             r = requests.get(url, timeout=2)
@@ -19,4 +18,3 @@ class FallbackPrice:
             return data["data"][symbol]["price"]
         except:
             return None
-EOF
