@@ -5,7 +5,7 @@ class HeliusRPC:
     def __init__(self, url: str):
         self.url = url
 
-    def call(self, method: str, params: list, timeout: float = 0.5) -> Dict[str, Any]:
+    def call(self, method: str, params: list, timeout: float = 0.3) -> Dict[str, Any]:
         payload = {
             "jsonrpc": "2.0",
             "id": 1,
@@ -18,5 +18,4 @@ class HeliusRPC:
             r.raise_for_status()
             return r.json()
         except Exception:
-            # Fail fast → laat Raydium fallback gebruiken
             return None
