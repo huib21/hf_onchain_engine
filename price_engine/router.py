@@ -10,11 +10,11 @@ class PriceRouter:
     def get_price(self, symbol: str):
         symbol = symbol.upper()
 
-        # 1️⃣ Raydium ONLY for ORCA (en later SOL/ETH/RAY wanneer node fix klaar is)
+        # 1️⃣ Alleen ORCA proberen on-chain (optioneel)
         if symbol == "ORCA":
             price = self.raydium.get_price(symbol)
-            if price is not None:
+            if price is not None and price > 0:
                 return price
 
-        # 2️⃣ ALLES ANDERS → DIRECT NAAR FALLBACK
+        # 2️⃣ ALLES → fallback
         return self.fallback.get_price(symbol)
