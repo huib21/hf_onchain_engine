@@ -1,39 +1,39 @@
 import base64
-from typing import Optional
-from .helius_rpc import HeliusRPC
 import struct
+import requests
 
 class RaydiumOnChain:
-    def __init__(self, rpc: HeliusRPC, pools: dict):
+    def __init__(self, rpc, pools):
         self.rpc = rpc
         self.pools = pools
 
-    def get_price(self, symbol: str) -> Optional[float]:
+    def get_price(self, symbol: str):
+        symbol = symbol.upper()
         if symbol not in self.pools:
             return None
 
         pool_pubkey = self.pools[symbol]
 
-        # on-chain pool account fetch
-        data = self.rpc.call(
-            "getAccountInfo",
-            [pool_pubkey, {"encoding": "base64"}]
-        )
+        try:
+            data = self.rpc.call(
+                "getAccountInfo",
+                [pool_pubkey, {"encoding": "base64"}],
+                timeout=0.5  # 🚀 super-korte timeout zodat fallback werkt
+            )
+        except Exception:
+            return None  # SSL fail -> fallback
 
         try:
-            raw = data["result"]["value"]["data"][0]
-        except:
+            encoded = data["result"]["value"]["data"][0]
+            raw = base64.b64decode(encoded)
+
+            # Decode Raydium CLMM structure
+            # Offsets
+            BASE_DECIMALS = struct.unpack_from("<I", raw, 268)[0]
+            QUOTE_DECIMALS = struct.unpack_from("<I", raw, 272)[0]
+            PRICE = struct.unpack_from("<Q", raw, 280)[0]
+
+            return PRICE / (10 ** (BASE_DECIMALS + QUOTE_DECIMALS))
+
+        except Exception:
             return None
-
-        decoded = base64.b64decode(raw)
-
-        # Raydium pool layout: tokenA_reserve @ offset 80, tokenB_reserve @ offset 88
-        # both are uint64 little endian
-        token_a = struct.unpack_from("<Q", decoded, 80)[0]
-        token_b = struct.unpack_from("<Q", decoded, 88)[0]
-
-        if token_a == 0 or token_b == 0:
-            return None
-
-        price = token_b / token_a
-        return price
