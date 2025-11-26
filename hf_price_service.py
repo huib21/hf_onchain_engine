@@ -2,7 +2,7 @@ from price_engine.helius_rpc import HeliusRPC
 from price_engine.raydium_onchain import RaydiumOnChain
 from price_engine.fallback_price import FallbackPrice
 from price_engine.router import PriceRouter
-from config import RPC_URL, RAYDIUM_POOLS, TOKENS
+from price_engine.config import RPC_URL, RAYDIUM_POOLS, TOKENS
 import time
 
 class HFPriceService:
