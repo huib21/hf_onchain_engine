@@ -1,19 +1,11 @@
-# Configuration file for the HF On-Chain Engine
+RPC_URL = "https://rpc.helius.xyz/?api-key=aa7555cc-2d2d-4f84-aa42-799065b84cfc"
 
-HELIUS_API_KEY = "aa7555cc-2d2d-4f84-aa42-799065b84cfc"
-
-TOKENS = [
-    {"symbol": "SOL"},
-    {"symbol": "USDC"},
-    {"symbol": "ETH"},
-    {"symbol": "USDT"},
-    {"symbol": "BONK"},
-    {"symbol": "JUP"},
-    {"symbol": "RAY"},
-    {"symbol": "ORCA"},
-]
-
+# Raydium pool accounts
 RAYDIUM_POOLS = {
-    "SOL-USDC": "8HoQnePLqPj4M7P8gK7pGDEXqmaL3v7eao2P9Q7DEeF7",
-    "ETH-USDC": "ATLASXjM5Bd6rU1cMoWcA6G3rzNRxs87jg3VvQihZAfC",
+    "SOL":  "8HoQnePLqPj4M7P8gK7pGDEXqmaL3v7eao2P9Q7DEeF7",  # SOL/USDC
+    "ETH":  "2N2i1qo4FwLXZLPV8Q7h3j7QZUfzmFqxr99ZTSdKCb3z",  # ETH/USDC
+    "RAY":  "58oQChx4yWmvKdwLLZzBi4ChoCc2fqCUWBkwMihLYQo2",  # RAY/USDC
+    "ORCA": "61R1ndXxvsWXXkWSyNkCxnzwd3zUNB8Q2ibmkiLPC8ht",  # ORCA/USDC
 }
+
+TOKENS = ["SOL", "ETH", "RAY", "ORCA", "USDC", "USDT", "BONK", "JUP"]
