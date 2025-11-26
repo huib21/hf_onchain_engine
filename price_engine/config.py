@@ -1,6 +1,6 @@
 # Configuration file for the HF On-Chain Engine
 
-HELIUS_API_KEY = "REPLACE_WITH_YOUR_HELIUS_KEY"
+HELIUS_API_KEY = "aa7555cc-2d2d-4f84-aa42-799065b84cfc"
 
 TOKENS = [
     {"symbol": "SOL"},
