@@ -8,19 +8,19 @@ class RaydiumOnChain:
 
     def get_price(self, symbol: str):
         symbol = symbol.upper()
-        if symbol not in self.pools:
+
+        # Alleen ORCA werkt stabiel op jouw node → rest fallback
+        if symbol != "ORCA":
             return None
 
         pool_pubkey = self.pools[symbol]
 
-        # 🚀 Short timeout
         data = self.rpc.call(
             "getAccountInfo",
             [pool_pubkey, {"encoding": "base64"}],
             timeout=0.5
         )
 
-        # 🚨 FAIL FAST → Fallback
         if (
             data is None
             or "result" not in data
@@ -40,5 +40,5 @@ class RaydiumOnChain:
 
             return PRICE / (10 ** (BASE_DECIMALS + QUOTE_DECIMALS))
 
-        except Exception:
+        except:
             return None
