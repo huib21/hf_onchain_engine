@@ -10,11 +10,11 @@ class PriceRouter:
     def get_price(self, symbol: str):
         symbol = symbol.upper()
 
-        # Gebruik Raydium als het token een on-chain USDC pool heeft
-        if symbol in self.raydium_pools:
+        # 🚀 Alleen ORCA via on-chain Raydium
+        if symbol == "ORCA":
             price = self.raydium.get_price(symbol)
-            if price is not None:
+            if price is not None and price > 0:
                 return price
 
-        # Anders fallback
+        # 🚀 ALTIJD fallback voor alle andere tokens
         return self.fallback.get_price(symbol)
