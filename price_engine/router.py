@@ -1,5 +1,5 @@
-from .raydium_onchain import RaydiumOnChain
 from .fallback_price import FallbackPrice
+from .raydium_onchain import RaydiumOnChain
 
 class PriceRouter:
     def __init__(self, raydium: RaydiumOnChain, fallback: FallbackPrice, raydium_pools):
@@ -10,11 +10,11 @@ class PriceRouter:
     def get_price(self, symbol: str):
         symbol = symbol.upper()
 
-        # 🚀 Alleen ORCA via on-chain Raydium
+        # 1️⃣ Raydium ONLY for ORCA (en later SOL/ETH/RAY wanneer node fix klaar is)
         if symbol == "ORCA":
             price = self.raydium.get_price(symbol)
-            if price is not None and price > 0:
+            if price is not None:
                 return price
 
-        # 🚀 ALTIJD fallback voor alle andere tokens
+        # 2️⃣ ALLES ANDERS → DIRECT NAAR FALLBACK
         return self.fallback.get_price(symbol)
